@@ -1,0 +1,15 @@
+# requirements.txt
+
+# Web Framework - Updated to the 5.2 series
+Django~=5.2
+dj-database-url
+
+# PostgreSQL database adapter for Python
+psycopg[c]
+
+# Production-grade WSGI server
+gunicorn
+
+geopy
+requests
+pillow

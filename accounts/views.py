@@ -41,24 +41,17 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        recaptcha_response = request.POST.get('g-recaptcha-response')
-        response = requests.post('https://www.google.com/recaptcha/api/siteverify', {
-            'secret': settings.RECAPTCHA_PRIVATE_KEY,
-            'response': recaptcha_response
-        })
-        result = response.json()
-        if result.get('success'):
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user is not None:
-                auth.login(request, user)
-                messages.success(request, "You are now logged in")
-                return redirect('dashboard')
-            else:
-                messages.error(request, "Invalid Credentials")
+
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, "You are now logged in")
+            return redirect('dashboard')
         else:
-            messages.error(request, "reCAPTCHA validation failed")
+            messages.error(request, "Invalid Credentials")
+
         return redirect('login')
     return render(request, 'accounts/login.html')
 
